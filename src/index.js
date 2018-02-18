@@ -3,11 +3,30 @@ proj4.defs("EPSG:26915", "+proj=utm +zone=15 +ellps=GRS80 +datum=NAD83 +units=m 
 
 var coordConverter = proj4('EPSG:3857','EPSG:26915')
 
+var test = function(url, resourceType) {
+    if(url.includes('geoint.lmic.state.mn')) {
+        return {
+           url: url,
+           headers: { 
+            "Content-Type":"image/png",
+            Pragma: "no-cache",
+            "Cache-Control": "no-cache",
+            Accept: "image/webp,image/apng,image/*,*/*;q=0.8",
+            "Accept-Language": "en-US,en;q=0.9",
+            "Access-Control-Allow-Origin": "*",
+             credentials: 'same-origin',
+             "X-Requested-With": 'tree-map.samghelms.github.io',
+            }
+        }
+    }
+}
+
 var map = new mapboxgl.Map({
     container: 'map',
     style: 'https://free.tilehosting.com/styles/basic/style.json?key=obvphmK3lI8iLuugsP5L',
     center: [-91.8671, 47.9032],
-    zoom: 13
+    zoom: 13,
+    transformRequest: test,
 });
 
 var database = firebase.database();
@@ -97,7 +116,7 @@ map.on('load', function () {
 
     var proxyurl = "https://cors-anywhere.herokuapp.com/";
     var url = "http://geoint.lmic.state.mn.us/cgi-bin/mncomp?SERVICE=WMS&REQUEST=GetMap&FORMAT=image/jpeg&TRANSPARENT=TRUE&STYLES=&VERSION=1.1.1&LAYERS=mncomp&WIDTH=256&HEIGHT=256&SRS=EPSG:26915&BBOX="; // site that doesn’t send Access-Control-*
-       
+    
     map.addSource('test', {
            "type": "raster",
             "tiles": [proxyurl + url],
