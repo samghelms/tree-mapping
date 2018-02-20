@@ -38,7 +38,7 @@ var singleTreeConvert = function(tree) {
         type: "Feature",
         geometry: {
             type: "Point",
-            coordinates: [tree.X, tree.Y]
+            coordinates: [tree.X, tree.Y],
         },
         properties: Object.assign({}, tree)
     }
@@ -108,19 +108,15 @@ var allTrees = treeRef.once('value').then(function(trees) {
                                               addTrees(trees.val())
                                             });
 
-// var createWMSQuery = function(sw, ne) {
-
-// }
-
 map.on('load', function () {
 
     var proxyurl = "https://cors-anywhere.herokuapp.com/";
-    var url = "http://geoint.lmic.state.mn.us/cgi-bin/mncomp?SERVICE=WMS&REQUEST=GetMap&FORMAT=image/jpeg&TRANSPARENT=TRUE&STYLES=&VERSION=1.1.1&LAYERS=mncomp&WIDTH=256&HEIGHT=256&SRS=EPSG:26915&BBOX="; // site that doesn’t send Access-Control-*
+    var url = "http://geoint.lmic.state.mn.us/cgi-bin/mncomp?SERVICE=WMS&REQUEST=GetMap&FORMAT=image/jpeg&TRANSPARENT=TRUE&STYLES=&VERSION=1.3.0&LAYERS=mncomp&WIDTH=256&HEIGHT=256&CRS=EPSG:26915&BBOX="; // site that doesn’t send Access-Control-*
     
     map.addSource('test', {
            "type": "raster",
             "tiles": [proxyurl + url],
-            "maxzoom": 20,
+            "maxzoom": 30,
             "tileSize": 256
     });
 
